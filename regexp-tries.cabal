@@ -27,7 +27,7 @@ Library
     Build-Depends:
         base             == 4.*,
         containers       == 0.3.*,
-        deriveTrie       == 1.0.*,
+        derive-trie      == 1.0.*,
         template-haskell == 2.4.*,
         weighted-regexp  == 0.3.*
 
