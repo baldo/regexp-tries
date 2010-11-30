@@ -74,7 +74,9 @@ import Data.ListTrie.ListTrie hiding
     )
 import Data.ListTrie.RegExp.Common
 import Data.Maybe
+import Data.Semiring
 import Text.RegExp
+import Text.RegExp.Internal
 
 -- Storing weights within the Trie ---------------------------------------------
 
@@ -94,33 +96,33 @@ instance StoreWeights v w (v, w) where
 
 instance WrapClass map emap sym
       => LookupRegExpClass (RegExp sym) map emap sym where
-    lookupRegExp     = lookupReW 0 True id  emptyS
-    lookupComplement = lookupReW 0 True not emptyS
+    lookupRegExp     = lookupReW 0 True id  empty
+    lookupComplement = lookupReW 0 True not empty
 
 lookupReW
     :: (WrapClass map emap sym, StoreWeights v w v', Weight sym sym w)
     => Int
     -> w
     -> (w -> w)
-    -> (RegExpS w sym -> w)
+    -> (RegW w sym -> w)
     -> RegExp sym
     -> map v
     -> map v'
-lookupReW n mark mod pred re t =
-    wrap $ lookupRe n mark mod pred (convertS re) $ unwrap t
+lookupReW n mark mod pred (RegExp re) t =
+    wrap $ lookupRe n mark mod pred re $ unwrap t
 
 lookupRe
     :: (KeyMap sym map, StoreWeights v w v', Weight sym sym w)
     => Int
     -> w
     -> (w -> w)
-    -> (RegExpS w sym -> w)
-    -> RegExpS w sym
+    -> (RegW w sym -> w)
+    -> RegW w sym
     -> ListTrie map v
     -> ListTrie map v'
 lookupRe _ _    _   _    _  NoListTrie       = NoListTrie
 lookupRe n mark mod pred re t@(ListTrie tn tc)
-    | n > 0 && not (activeS re) =
+    | n > 0 && not (active re) =
         if mod one' /= zero
             then NoListTrie
             else select t $ error "This should never haqppen!"
@@ -136,7 +138,7 @@ lookupRe n mark mod pred re t@(ListTrie tn tc)
         tc'  = mapMaybeWithKey go tc
 
         go c ts =
-            cleanup $ lookupRe (n + 1) zero mod finalS (shiftS mark re c) ts
+            cleanup $ lookupRe (n + 1) zero mod final (shift mark (reg re) c) ts
 
         cleanup ts
             | null ts   = Nothing
@@ -177,7 +179,7 @@ lookupW
     => RegExp sym
     -> map v
     -> map (v, w)
-lookupW re t = wrap $ lookupRe 0 one id emptyS (weightedS re) $ unwrap t
+lookupW (RegExp re) t = wrap $ lookupRe 0 one id empty (weighted re) $ unwrap t
 
 -- Optimzation of combined Regular Expressions ---------------------------------
 
