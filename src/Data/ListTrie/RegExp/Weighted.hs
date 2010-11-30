@@ -201,7 +201,7 @@ instance OptimizeClass (RegExp sym) where
     optimizeExpr (Intersection e1 e2) =
         case (optimizeExpr e1, optimizeExpr e2) of
             (e1', e2') ->
-                Intersection (optimizeExpr e1) (optimizeExpr e2)
+                Intersection (optimizeExpr e1') (optimizeExpr e2')
 
     optimizeExpr (Union e1 e2) =
         case (optimizeExpr e1, optimizeExpr e2) of
