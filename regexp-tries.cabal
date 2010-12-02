@@ -29,7 +29,7 @@ Library
         containers       == 0.3.*,
         derive-trie      == 0.1.*,
         template-haskell == 2.4.*,
-        weighted-regexp  == 0.3.*
+        weighted-regexp  >= 0.3.1 && <= 0.4
 
     Ghc-Options:
         -Wall
