@@ -1,5 +1,5 @@
 Name:          regexp-tries
-Version:       0.1.1
+Version:       0.2
 Stability:     Alpha
 Synopsis:      Regular Expressions on Tries.
 Description:   Regular Expressions on Tries.
@@ -11,8 +11,8 @@ Maintainer:    Andreas Baldeau <andreas@baldeau.net>
 Homepage:      http://github.com/baldo/regexp-tries
 Bug-Reports:   http://github.com/baldo/regexp-tries/issues
 Category:      Data
-Tested-With:   GHC == 6.12.3
-Cabal-Version: >= 1.8
+Tested-With:   GHC == 7.0.3
+Cabal-Version: >= 1.10
 
 Extra-Source-Files:
     Setup.hs
@@ -24,11 +24,14 @@ Source-Repository head
     Location: git://github.com/baldo/regexp-tries.git
 
 Library
+    Default-Language:
+        Haskell2010
+
     Build-Depends:
-        base             == 4.*,
-        containers       == 0.3.*,
-        derive-trie      == 0.1.*,
-        template-haskell == 2.4.*,
+        base             >= 4.3 && < 4.5,
+        containers       >= 0.3 && < 0.5,
+        derive-trie      >= 0.2.1 && < 0.3,
+        template-haskell >= 2.5 && < 2.7,
         weighted-regexp  >= 0.3.1 && < 0.4
 
     Ghc-Options:
@@ -45,14 +48,4 @@ Library
     Other-Modules:
         Data.ListTrie.ListTrie
         Data.ListTrie.RegExp.Common
-
-    Extensions:
-        FlexibleContexts
-        FlexibleInstances
-        FunctionalDependencies
-        MultiParamTypeClasses
-        OverlappingInstances
-        TemplateHaskell
-        TypeSynonymInstances
-        UndecidableInstances
 

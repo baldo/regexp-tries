@@ -1,2 +1,7 @@
+0.1.1 -> 0.2
+    * Updated dependencies.
+    * Building now with fixed version of derive-trie.
+    * Using Haskell2010 as default language.
+
 0.1 -> 0.1.1
 
